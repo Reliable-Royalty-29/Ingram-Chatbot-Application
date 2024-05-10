@@ -26,7 +26,7 @@ if 'msg' not in st.session_state:
         SystemMessage(content="Answer anything that human asks")
     ]
 
-def test(question):
+def ask_question(question):
     st.session_state['msg'].append(HumanMessage(content=question))
     prompt = "\n".join(msg.content for msg in st.session_state['msg'])
     answer = llm(prompt)
@@ -46,8 +46,8 @@ def analyze_pdf(uploaded_file):
         page = pdf_reader.pages[page_num]
         text = page.extract_text()
         chunks.extend(text.split("\n\n"))
+    pdf_file.close()  # Close the PDF file
     return chunks
-
 
 st.set_page_config(page_title="Chatbot")
 st.header("Ingram Chatbot Application")
@@ -59,7 +59,7 @@ if input_type == "Text Input":
     input_question = st.text_input("Ask your questions: ", key="input_question")
     if st.button("Ask"):
         # Get answer from OpenAI language model
-        response = test(input_question)
+        response = ask_question(input_question)
         st.subheader("The Response from OpenAI:")
         st.write(response)
 else:
@@ -76,6 +76,6 @@ else:
         pdf_question = st.text_input("Ask your questions here: ")
         if st.button("Ask"):
             # Get answer from OpenAI language model
-            pdf_response = test(pdf_question)
+            pdf_response = ask_question(pdf_question)
             st.subheader("The Response from OpenAI:")
             st.write(pdf_response)
