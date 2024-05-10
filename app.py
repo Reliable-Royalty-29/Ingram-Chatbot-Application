@@ -39,7 +39,7 @@ def search_google(query):
 def analyze_pdf(uploaded_file):
     if uploaded_file is not None:
         uploaded_file_bytes = uploaded_file.read()
-        pdf_file = PyPDF2.PdfFileReader(uploaded_file_bytes)
+        pdf_file = PyPDF2.PdfReader(uploaded_file_bytes)
         chunks = []
         for page_num in range(pdf_file.numPages):
             page = pdf_file.getPage(page_num)
