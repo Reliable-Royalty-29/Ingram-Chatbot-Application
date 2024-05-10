@@ -7,3 +7,4 @@ faiss-cpu
 tiktoken
 google
 serpapi
+langchain_openai
