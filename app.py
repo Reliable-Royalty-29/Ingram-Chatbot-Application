@@ -5,6 +5,7 @@ from langchain_openai import AzureOpenAI
 from langchain.schema import HumanMessage, AIMessage, SystemMessage
 from googlesearch import search
 import PyPDF2
+from io import BytesIO  # Import BytesIO for handling byte streams
 
 # Load environment variables from .env file
 load_dotenv()
@@ -39,10 +40,11 @@ def search_google(query):
 def analyze_pdf(uploaded_file):
     if uploaded_file is not None:
         uploaded_file_bytes = uploaded_file.read()
-        pdf_file = PyPDF2.PdfReader(uploaded_file_bytes)
+        # Wrap uploaded_file_bytes in BytesIO for seeking operations
+        pdf_file = PyPDF2.PdfReader(BytesIO(uploaded_file_bytes))
         chunks = []
-        for page_num in range(pdf_file.numPages):
-            page = pdf_file.getPage(page_num)
+        for page_num in range(len(pdf_file.pages)):
+            page = pdf_file.pages[page_num]
             text = page.extract_text()
             chunks.extend(text.split("\n\n"))
         return chunks
