@@ -47,8 +47,7 @@ def analyze_pdf(uploaded_file):
         text = page.extract_text()
         chunks.extend(text.split("\n\n"))
     return chunks
-else:
-            st.write("Sorry, I can only provide information based on the content of the uploaded PDF.")
+
 
 st.set_page_config(page_title="Chatbot")
 st.header("Ingram Chatbot Application")
